@@ -9,3 +9,11 @@ jobs:
       - uses: ./action-a
         with:
           MY_NAME: "Mona"
+      - name: "Build container"
+        id: build-container
+        run: |
+          docker build -t my-container:my-tag .
+      - name: "List containers"
+        id: list-containers
+        run: |
+          docker images

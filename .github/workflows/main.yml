@@ -27,6 +27,7 @@ jobs:
           args: --cache-dir /var/lib/trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL my-container:my-tag
   scan:
     name: Scan for vulnerabilities
+    needs: build
     runs-on: aquasec/trivy:0.10.2
     steps:
       - name: Scan for LOW, MED vulnerabilities

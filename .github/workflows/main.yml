@@ -25,11 +25,12 @@ jobs:
         uses: docker://docker.io/aquasec/trivy:0.10.2
         with:
           args: --cache-dir /var/lib/trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL my-container:my-tag
-#   scan:
-#     name: Scan for vulnerabilities
-#     runs-on: aquasec/trivy:0.10.2
-#     steps:
-#       - name: Scan for LOW, MED vulnerabilities
-#         run: |
-#           trivy --exit-code 0 --severity UNKNOWN,LOW,MEDIUM
+  scan:
+    name: Scan for vulnerabilities
+    runs-on: aquasec/trivy:0.10.2
+    steps:
+      - name: Scan for LOW, MED vulnerabilities
+        run: |
+          docker images
+          /var/lib/trivy --no-progress --exit-code 0 --severity UNKNOWN,LOW,MEDIUM my-container:my-tag
       

@@ -28,10 +28,18 @@ jobs:
   scan:
     name: Scan for vulnerabilities
     needs: build
-    runs-on: aquasec/trivy:0.10.2
+    runs-on: ubuntu-latest
     steps:
-      - name: Scan for LOW, MED vulnerabilities
+      - name: "List containers"
+        id: list-containers
         run: |
           docker images
-          /var/lib/trivy --no-progress --exit-code 0 --severity UNKNOWN,LOW,MEDIUM my-container:my-tag
+      - name: Scan for LOW, MED vulnerabilities
+        uses: docker://docker.io/aquasec/trivy:0.10.2
+        with:
+          args: --cache-dir /var/lib/trivy --no-progress --exit-code 0 --severity UNKNOWN,LOW,MEDIUM my-container:my-tag
+      - name: Scan for HIGH, CRITICAL vulnerabilities
+        uses: docker://docker.io/aquasec/trivy:0.10.2
+        with:
+          args: --cache-dir /var/lib/trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL my-container:my-tag
       
